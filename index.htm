@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Project</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column; /* Stack items vertically */
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        a {
+            text-decoration: none;
+            font-size: 1.2rem;
+            color: #333;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        div {
+            counter-reset: section;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            transform: translateY(-100%); /* Initial position */
+            opacity: 0; /* Initially hidden */
+            transition: transform 1s ease, opacity 1s ease; /* Smooth transition */
+            margin-top: 2rem;
+        }
+
+        .visible {
+            transform: translateY(0); /* Bring into view */
+            opacity: 1; /* Make fully visible */
+        }
+
+        .typing {
+            font-size: 2rem;
+            color: #333;
+            border-right: 2px solid #333;
+            overflow: hidden;
+            text-align: center;
+            margin: 0 1rem 1rem 1rem; /* Added margin-bottom */
+            word-break: break-word; /* Allow long text to break */
+        }
+
+        @keyframes blink {
+            from { border-color: transparent; }
+            to { border-color: #333; }
+        }
+
+        .typing.completed {
+            border-right: none; /* Stop cursor blinking after typing is complete */
+        }
+
+        /* Responsive styles */
+        @media (max-width: 800px) {
+            h1 {
+                font-size: 1.5rem;
+                width: 90%;
+                text-align: center;
+                margin: 0 auto 1rem auto; /* Added margin-bottom */
+            }
+
+            a {
+                font-size: 1rem;
+                text-align: center;
+            }
+
+            div {
+                gap: 1rem; /* Reduce spacing between links */
+                margin-top: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.2rem;
+                width: 100%;
+                padding: 0 1rem;
+                margin-bottom: 1rem; /* Added margin-bottom */
+                word-break: break-word; /* Ensure wrapping for smaller screens */
+            }
+
+            a {
+                font-size: 0.9rem;
+            }
+
+            div {
+                gap: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="typing" id="line1"></h1>
+    <h1 class="typing" id="line2"></h1>
+    <h1 class="typing" id="line3"></h1>
+
+    <div id="project-links">
+        <a href="https://ecosystem-seven.vercel.app/">PROJECT ONE: E-com</a>
+        <a href="https://portfolio-six-rose-15.vercel.app/">PROJECT TWO: Agency</a>
+        <a href="https://digital-agency-weld.vercel.app/">PROJECT THREE: Agency</a>
+        <a href="https://movie-browser-blond.vercel.app/">PROJECT FOUR: Movie Browser</a>
+        <a href="https://real-count.vercel.app/">PROJECT FIVE: Counter</a>
+        <!-- <a href="https://open-enter.vercel.app/">PROJECT FIVE</a> -->
+        <!-- <a href="https://hotel-two-teal.vercel.app/">PROJECT SIX</a> -->
+    </div>
+
+    <script>
+        const line1Text = "Dear Recruiting Manager,";
+        const line2Text = "Welcome to My Work Space!!";
+        const line3Text = "Below are a few of my projects.";
+
+        function typeText(elementId, text, delay = 0, callback = null) {
+            const element = document.getElementById(elementId);
+            let index = 0;
+
+            function type() {
+                if (index < text.length) {
+                    element.textContent += text.charAt(index); // Add one character
+                    index++;
+                    setTimeout(type, 100); // Adjust speed by changing 100 (ms)
+                } else {
+                    element.classList.add('completed'); // Stop cursor blinking
+                    if (callback) callback(); // Trigger callback when typing completes
+                }
+            }
+
+            setTimeout(type, delay); // Start typing after delay
+        }
+
+        // Animate each line with a delay
+        typeText("line1", line1Text, 0); // Start immediately
+        typeText("line2", line2Text, line1Text.length * 100 + 500); // Start after line 1 finishes
+        typeText("line3", line3Text, (line1Text.length + line2Text.length) * 100 + 1000, () => {
+            // Add 'visible' class to the div to trigger animation
+            const projectLinks = document.getElementById("project-links");
+            projectLinks.classList.add('visible');
+        });
+    </script>
+</body>
+</html>
